@@ -2,30 +2,42 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Thao 8-3 ❤️</title>
+<title>Chúc Thảo 8-3 ❤️</title>
 
 <style>
 
 body{
 background:black;
 color:white;
-font-family:Courier New;
 text-align:center;
+font-family:Courier New;
 margin:0;
 overflow:hidden;
 }
 
-/* màn hình code */
+/* màn hình terminal */
 
 #terminal{
 padding-top:120px;
 font-size:18px;
 }
 
+button{
+padding:15px 30px;
+font-size:18px;
+background:#ff4d6d;
+border:none;
+color:white;
+border-radius:10px;
+cursor:pointer;
+}
+
+/* trang lời chúc */
+
 #lovePage{
 display:none;
-padding-top:100px;
 font-family:Arial;
+padding-top:100px;
 }
 
 h1{
@@ -44,16 +56,6 @@ animation:beat 1s infinite;
 100%{transform:scale(1)}
 }
 
-button{
-padding:15px 30px;
-font-size:18px;
-background:#ff4d6d;
-border:none;
-color:white;
-border-radius:10px;
-cursor:pointer;
-}
-
 /* hoa rơi */
 
 .flower{
@@ -64,9 +66,7 @@ animation:fall linear infinite;
 }
 
 @keyframes fall{
-to{
-transform:translateY(110vh);
-}
+to{transform:translateY(110vh)}
 }
 
 /* pháo hoa */
@@ -75,6 +75,7 @@ canvas{
 position:fixed;
 top:0;
 left:0;
+display:none;
 }
 
 </style>
@@ -88,13 +89,14 @@ left:0;
 
 <div id="code"></div>
 
-<br>
+<br><br>
 
 <button onclick="runCode()">Bấm vào đây</button>
 
 </div>
 
-<!-- LOVE PAGE -->
+
+<!-- TRANG LỜI CHÚC -->
 
 <div id="lovePage">
 
@@ -110,9 +112,7 @@ left:0;
 
 </div>
 
-<!-- nhạc -->
-
-<audio id="music" autoplay loop>
+<audio id="music" loop>
 <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3">
 </audio>
 
@@ -123,18 +123,18 @@ left:0;
 /* giả lập code C */
 
 const lines=[
-"guest@love:~$ gcc love.c",
-"Compiling...",
+"guest@love:~$ cat love.c",
 "",
 "#include <stdio.h>",
 "",
 "int main(){",
-'   printf("Chúc Thảo 8-3 ❤️");',
+'   printf("Anh yêu em Thảo ❤️");',
 "}",
 "",
-"Running program...",
+"guest@love:~$ gcc love.c",
+"guest@love:~$ ./love",
 "",
-"Chúc Thảo 8-3 ❤️"
+"Anh yêu em Thảo ❤️"
 ]
 
 let i=0
@@ -163,13 +163,15 @@ setTimeout(showLove,2000)
 
 }
 
-/* chuyển sang trang lời chúc */
+/* chuyển sang lời chúc */
 
 function showLove(){
 
 document.getElementById("terminal").style.display="none"
 
 document.getElementById("lovePage").style.display="block"
+
+document.getElementById("music").play()
 
 startFlowers()
 
@@ -191,11 +193,11 @@ flower.innerHTML="🌸"
 
 flower.style.left=Math.random()*100+"vw"
 
-flower.style.animationDuration=(Math.random()*3+2)+"s"
+flower.style.animationDuration=(Math.random()*3+3)+"s"
 
 document.body.appendChild(flower)
 
-setTimeout(()=>flower.remove(),5000)
+setTimeout(()=>flower.remove(),6000)
 
 },300)
 
@@ -203,8 +205,12 @@ setTimeout(()=>flower.remove(),5000)
 
 /* pháo hoa */
 
+function startFireworks(){
+
 const canvas=document.getElementById("fireworks")
 const ctx=canvas.getContext("2d")
+
+canvas.style.display="block"
 
 canvas.width=window.innerWidth
 canvas.height=window.innerHeight
@@ -216,13 +222,13 @@ function createFirework(){
 let x=Math.random()*canvas.width
 let y=Math.random()*canvas.height/2
 
-for(let i=0;i<50;i++){
+for(let i=0;i<40;i++){
 
 particles.push({
 x:x,
 y:y,
-vx:(Math.random()-0.5)*5,
-vy:(Math.random()-0.5)*5,
+vx:(Math.random()-0.5)*6,
+vy:(Math.random()-0.5)*6,
 life:100
 })
 
@@ -235,7 +241,7 @@ function animate(){
 ctx.fillStyle="rgba(0,0,0,0.2)"
 ctx.fillRect(0,0,canvas.width,canvas.height)
 
-particles.forEach((p,i)=>{
+particles.forEach((p,index)=>{
 
 p.x+=p.vx
 p.y+=p.vy
@@ -244,7 +250,7 @@ p.life--
 ctx.fillStyle="red"
 ctx.fillRect(p.x,p.y,3,3)
 
-if(p.life<=0) particles.splice(i,1)
+if(p.life<=0) particles.splice(index,1)
 
 })
 
@@ -256,8 +262,9 @@ setInterval(createFirework,1000)
 
 animate()
 
+}
+
 </script>
 
 </body>
 </html>
-
