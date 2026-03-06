@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>love.c - gcc</title>
+
+<style>
+body{
+    margin:0;
+    background:black;
+    color:#00ff00;
+    font-family:monospace;
+}
+
+#terminal{
+    padding:20px;
+    white-space:pre-wrap;
+}
+
+.heart{
+    display:none;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%) rotate(-45deg);
+    width:200px;
+    height:200px;
+    background:red;
+}
+
+.heart:before,
+.heart:after{
+    content:"";
+    position:absolute;
+    width:200px;
+    height:200px;
+    background:red;
+    border-radius:50%;
+}
+
+.heart:before{
+    top:-100px;
+    left:0;
+}
+
+.heart:after{
+    left:100px;
+    top:0;
+}
+</style>
+</head>
+
+<body>
+
+<div id="terminal"></div>
+<div class="heart"></div>
+
+<script>
+
+let text = `
+guest@love:~$ cat love.c
+
+#include <stdio.h>
+
+int main() {
+    printf("Anh yeu em ❤️");
+    return 0;
+}
+
+guest@love:~$ gcc love.c
+guest@love:~$ ./love
+
+Anh yeu em ❤️
+`;
+
+let i = 0;
+
+function type(){
+    if(i < text.length){
+        document.getElementById("terminal").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(type,40);
+    } else {
+        document.querySelector(".heart").style.display="block";
+    }
+}
+
+type();
+
+</script>
+
+</body>
+</html>
