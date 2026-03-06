@@ -1,78 +1,263 @@
+<!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Thao8-3 ❤️</title>
+<title>Thao 8-3 ❤️</title>
 
 <style>
 
 body{
-    background:black;
-    color:white;
-    text-align:center;
-    font-family: Arial;
-    margin-top:120px;
+background:black;
+color:white;
+font-family:Courier New;
+text-align:center;
+margin:0;
+overflow:hidden;
+}
+
+/* màn hình code */
+
+#terminal{
+padding-top:120px;
+font-size:18px;
+}
+
+#lovePage{
+display:none;
+padding-top:100px;
+font-family:Arial;
 }
 
 h1{
-    color:#ff4d6d;
-    font-size:50px;
+color:#ff4d6d;
+font-size:40px;
 }
 
 .heart{
-    font-size:120px;
-    animation: beat 1s infinite;
+font-size:120px;
+animation:beat 1s infinite;
 }
 
 @keyframes beat{
-    0%{transform:scale(1);}
-    50%{transform:scale(1.2);}
-    100%{transform:scale(1);}
+0%{transform:scale(1)}
+50%{transform:scale(1.2)}
+100%{transform:scale(1)}
 }
 
 button{
-    padding:15px 30px;
-    font-size:18px;
-    border:none;
-    background:#ff4d6d;
-    color:white;
-    border-radius:10px;
-    cursor:pointer;
+padding:15px 30px;
+font-size:18px;
+background:#ff4d6d;
+border:none;
+color:white;
+border-radius:10px;
+cursor:pointer;
 }
 
-#msg{
-    margin-top:30px;
-    font-size:28px;
-    display:none;
+/* hoa rơi */
+
+.flower{
+position:fixed;
+top:-10px;
+font-size:24px;
+animation:fall linear infinite;
+}
+
+@keyframes fall{
+to{
+transform:translateY(110vh);
+}
+}
+
+/* pháo hoa */
+
+canvas{
+position:fixed;
+top:0;
+left:0;
 }
 
 </style>
-
 </head>
 
 <body>
+
+<!-- TERMINAL -->
+
+<div id="terminal">
+
+<div id="code"></div>
+
+<br>
+
+<button onclick="runCode()">Bấm vào đây</button>
+
+</div>
+
+<!-- LOVE PAGE -->
+
+<div id="lovePage">
 
 <h1>Chúc Thảo 8-3 ❤️</h1>
 
 <div class="heart">❤️</div>
 
-<br>
+<p>Chúc Thảo luôn xinh đẹp 🌸</p>
+<p>Luôn vui vẻ và hạnh phúc</p>
+<p>Và đặc biệt là...</p>
 
-<button onclick="show()">Bấm vào đây</button>
+<h2>❤️ Anh yêu em ❤️</h2>
 
-<div id="msg">
-    <p>Chúc Thảo luôn xinh đẹp 🌸</p>
-    <p>Luôn vui vẻ và hạnh phúc</p>
-    <p>Và đặc biệt là...</p>
-    <h2>❤️</h2>
 </div>
+
+<!-- nhạc -->
+
+<audio id="music" autoplay loop>
+<source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3">
+</audio>
+
+<canvas id="fireworks"></canvas>
 
 <script>
 
-function show(){
-    document.getElementById("msg").style.display="block"
+/* giả lập code C */
+
+const lines=[
+"guest@love:~$ gcc love.c",
+"Compiling...",
+"",
+"#include <stdio.h>",
+"",
+"int main(){",
+'   printf("Chúc Thảo 8-3 ❤️");',
+"}",
+"",
+"Running program...",
+"",
+"Chúc Thảo 8-3 ❤️"
+]
+
+let i=0
+
+function runCode(){
+
+document.querySelector("button").style.display="none"
+
+let code=document.getElementById("code")
+
+let interval=setInterval(()=>{
+
+code.innerHTML+=lines[i]+"<br>"
+
+i++
+
+if(i>=lines.length){
+
+clearInterval(interval)
+
+setTimeout(showLove,2000)
+
 }
+
+},500)
+
+}
+
+/* chuyển sang trang lời chúc */
+
+function showLove(){
+
+document.getElementById("terminal").style.display="none"
+
+document.getElementById("lovePage").style.display="block"
+
+startFlowers()
+
+startFireworks()
+
+}
+
+/* hoa rơi */
+
+function startFlowers(){
+
+setInterval(()=>{
+
+let flower=document.createElement("div")
+
+flower.className="flower"
+
+flower.innerHTML="🌸"
+
+flower.style.left=Math.random()*100+"vw"
+
+flower.style.animationDuration=(Math.random()*3+2)+"s"
+
+document.body.appendChild(flower)
+
+setTimeout(()=>flower.remove(),5000)
+
+},300)
+
+}
+
+/* pháo hoa */
+
+const canvas=document.getElementById("fireworks")
+const ctx=canvas.getContext("2d")
+
+canvas.width=window.innerWidth
+canvas.height=window.innerHeight
+
+let particles=[]
+
+function createFirework(){
+
+let x=Math.random()*canvas.width
+let y=Math.random()*canvas.height/2
+
+for(let i=0;i<50;i++){
+
+particles.push({
+x:x,
+y:y,
+vx:(Math.random()-0.5)*5,
+vy:(Math.random()-0.5)*5,
+life:100
+})
+
+}
+
+}
+
+function animate(){
+
+ctx.fillStyle="rgba(0,0,0,0.2)"
+ctx.fillRect(0,0,canvas.width,canvas.height)
+
+particles.forEach((p,i)=>{
+
+p.x+=p.vx
+p.y+=p.vy
+p.life--
+
+ctx.fillStyle="red"
+ctx.fillRect(p.x,p.y,3,3)
+
+if(p.life<=0) particles.splice(i,1)
+
+})
+
+requestAnimationFrame(animate)
+
+}
+
+setInterval(createFirework,1000)
+
+animate()
 
 </script>
 
 </body>
 </html>
+
