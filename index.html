@@ -1,36 +1,69 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Happy Women's Day</title>
+<title>Chúc Mừng 8-3</title>
 
 <style>
 
 body{
-background:#000;
-color:white;
+background:black;
+color:#0f0;
+font-family:monospace;
 text-align:center;
 overflow:hidden;
-font-family:sans-serif;
 }
 
-h1{
-color:pink;
-margin-top:80px;
+/* chữ hacker */
+
+#text{
+margin-top:120px;
+font-size:28px;
+color:#ff69b4;
 }
+
+/* hoa rơi */
 
 .flower{
 position:absolute;
 top:-50px;
-font-size:25px;
+font-size:24px;
 animation:fall linear infinite;
 }
 
 @keyframes fall{
+0%{transform:translateY(-50px)}
+100%{transform:translateY(100vh)}
+}
 
-0%{transform:translateY(-50px);}
-100%{transform:translateY(100vh);}
+/* trái tim bay */
 
+.heart{
+position:absolute;
+bottom:-20px;
+font-size:20px;
+color:red;
+animation:fly 5s linear infinite;
+}
+
+@keyframes fly{
+0%{transform:translateY(0)}
+100%{transform:translateY(-100vh)}
+}
+
+/* hoa hồng */
+
+.rose{
+margin-top:40px;
+color:red;
+font-size:18px;
+white-space:pre;
+animation:bloom 4s forwards;
+}
+
+@keyframes bloom{
+0%{transform:scale(0.2);opacity:0}
+100%{transform:scale(1);opacity:1}
 }
 
 </style>
@@ -38,30 +71,99 @@ animation:fall linear infinite;
 
 <body>
 
-<h1>🌸 Chúc Mừng Ngày 8-3 🌸</h1>
-<h2>Chúc bạn luôn xinh đẹp, mạnh mẽ và hạnh phúc 🌹</h2>
+<h1>🌸 Happy Women's Day 8-3 🌸</h1>
+
+<div id="text"></div>
+
+<div class="rose">
+
+        _ _
+     {` ` `}\
+    {  `   ` }
+   { `  ` `  }
+    {  `   ` }
+     {` ` `}/
+       \|/
+        |
+       \|/
+        |
+       \|/
+        |
+       / \
+
+</div>
+
+<audio autoplay loop>
+<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">
+</audio>
 
 <script>
 
-function createFlower(){
+/* chữ gõ từng ký tự */
 
-let flower=document.createElement("div");
+let message="Chúc bạn một ngày 8-3 thật hạnh phúc, luôn xinh đẹp và rạng rỡ 🌹";
 
-flower.innerHTML="🌸";
-flower.className="flower";
+let i=0;
 
-flower.style.left=Math.random()*100+"vw";
-flower.style.animationDuration=3+Math.random()*5+"s";
+function typing(){
 
-document.body.appendChild(flower);
+if(i<message.length){
 
-setTimeout(()=>{
-flower.remove();
-},8000);
+document.getElementById("text").innerHTML+=message.charAt(i);
+
+i++;
+
+setTimeout(typing,70);
 
 }
 
-setInterval(createFlower,300);
+}
+
+typing();
+
+
+/* hoa rơi */
+
+function flower(){
+
+let f=document.createElement("div");
+
+f.innerHTML="🌸";
+
+f.className="flower";
+
+f.style.left=Math.random()*100+"vw";
+
+f.style.animationDuration=3+Math.random()*5+"s";
+
+document.body.appendChild(f);
+
+setTimeout(()=>{f.remove()},8000);
+
+}
+
+setInterval(flower,300);
+
+
+/* trái tim bay */
+
+function heart(){
+
+let h=document.createElement("div");
+
+h.innerHTML="❤";
+
+h.className="heart";
+
+h.style.left=Math.random()*100+"vw";
+
+document.body.appendChild(h);
+
+setTimeout(()=>{h.remove()},5000);
+
+}
+
+setInterval(heart,500);
 
 </script>
 
