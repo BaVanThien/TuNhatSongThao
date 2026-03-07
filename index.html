@@ -1,81 +1,36 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>Chúc Thảo 8-3 ❤️</title>
+<title>Happy Women's Day</title>
 
 <style>
 
 body{
-background:black;
+background:#000;
 color:white;
 text-align:center;
-font-family:Courier New;
-margin:0;
 overflow:hidden;
-}
-
-/* màn hình terminal */
-
-#terminal{
-padding-top:120px;
-font-size:18px;
-}
-
-button{
-padding:15px 30px;
-font-size:18px;
-background:#ff4d6d;
-border:none;
-color:white;
-border-radius:10px;
-cursor:pointer;
-}
-
-/* trang lời chúc */
-
-#lovePage{
-display:none;
-font-family:Arial;
-padding-top:100px;
+font-family:sans-serif;
 }
 
 h1{
-color:#ff4d6d;
-font-size:40px;
+color:pink;
+margin-top:80px;
 }
-
-.heart{
-font-size:120px;
-animation:beat 1s infinite;
-}
-
-@keyframes beat{
-0%{transform:scale(1)}
-50%{transform:scale(1.2)}
-100%{transform:scale(1)}
-}
-
-/* hoa rơi */
 
 .flower{
-position:fixed;
-top:-10px;
-font-size:24px;
+position:absolute;
+top:-50px;
+font-size:25px;
 animation:fall linear infinite;
 }
 
 @keyframes fall{
-to{transform:translateY(110vh)}
-}
 
-/* pháo hoa */
+0%{transform:translateY(-50px);}
+100%{transform:translateY(100vh);}
 
-canvas{
-position:fixed;
-top:0;
-left:0;
-display:none;
 }
 
 </style>
@@ -83,186 +38,30 @@ display:none;
 
 <body>
 
-<!-- TERMINAL -->
-
-<div id="terminal">
-
-<div id="code"></div>
-
-<br><br>
-
-<button onclick="runCode()">Bấm vào đây</button>
-
-</div>
-
-
-<!-- TRANG LỜI CHÚC -->
-
-<div id="lovePage">
-
-<h1>Chúc Thảo 8-3 ❤️</h1>
-
-<div class="heart">❤️</div>
-
-<p>Chúc Thảo luôn xinh đẹp 🌸</p>
-<p>Luôn vui vẻ và hạnh phúc</p>
-<p>Và đặc biệt là...</p>
-
-<h2>❤️ Anh yêu em ❤️</h2>
-
-</div>
-
-<audio id="music" loop>
-<source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3">
-</audio>
-
-<canvas id="fireworks"></canvas>
+<h1>🌸 Chúc Mừng Ngày 8-3 🌸</h1>
+<h2>Chúc bạn luôn xinh đẹp, mạnh mẽ và hạnh phúc 🌹</h2>
 
 <script>
 
-/* giả lập code C */
+function createFlower(){
 
-const lines=[
-"guest@love:~$ cat love.c",
-"",
-"#include <stdio.h>",
-"",
-"int main(){",
-'   printf("Anh yêu em Thảo ❤️");',
-"}",
-"",
-"guest@love:~$ gcc love.c",
-"guest@love:~$ ./love",
-"",
-"Anh yêu em Thảo ❤️"
-]
+let flower=document.createElement("div");
 
-let i=0
+flower.innerHTML="🌸";
+flower.className="flower";
 
-function runCode(){
+flower.style.left=Math.random()*100+"vw";
+flower.style.animationDuration=3+Math.random()*5+"s";
 
-document.querySelector("button").style.display="none"
+document.body.appendChild(flower);
 
-let code=document.getElementById("code")
-
-let interval=setInterval(()=>{
-
-code.innerHTML+=lines[i]+"<br>"
-
-i++
-
-if(i>=lines.length){
-
-clearInterval(interval)
-
-setTimeout(showLove,2000)
+setTimeout(()=>{
+flower.remove();
+},8000);
 
 }
 
-},500)
-
-}
-
-/* chuyển sang lời chúc */
-
-function showLove(){
-
-document.getElementById("terminal").style.display="none"
-
-document.getElementById("lovePage").style.display="block"
-
-document.getElementById("music").play()
-
-startFlowers()
-
-startFireworks()
-
-}
-
-/* hoa rơi */
-
-function startFlowers(){
-
-setInterval(()=>{
-
-let flower=document.createElement("div")
-
-flower.className="flower"
-
-flower.innerHTML="🌸"
-
-flower.style.left=Math.random()*100+"vw"
-
-flower.style.animationDuration=(Math.random()*3+3)+"s"
-
-document.body.appendChild(flower)
-
-setTimeout(()=>flower.remove(),6000)
-
-},300)
-
-}
-
-/* pháo hoa */
-
-function startFireworks(){
-
-const canvas=document.getElementById("fireworks")
-const ctx=canvas.getContext("2d")
-
-canvas.style.display="block"
-
-canvas.width=window.innerWidth
-canvas.height=window.innerHeight
-
-let particles=[]
-
-function createFirework(){
-
-let x=Math.random()*canvas.width
-let y=Math.random()*canvas.height/2
-
-for(let i=0;i<40;i++){
-
-particles.push({
-x:x,
-y:y,
-vx:(Math.random()-0.5)*6,
-vy:(Math.random()-0.5)*6,
-life:100
-})
-
-}
-
-}
-
-function animate(){
-
-ctx.fillStyle="rgba(0,0,0,0.2)"
-ctx.fillRect(0,0,canvas.width,canvas.height)
-
-particles.forEach((p,index)=>{
-
-p.x+=p.vx
-p.y+=p.vy
-p.life--
-
-ctx.fillStyle="red"
-ctx.fillRect(p.x,p.y,3,3)
-
-if(p.life<=0) particles.splice(index,1)
-
-})
-
-requestAnimationFrame(animate)
-
-}
-
-setInterval(createFirework,1000)
-
-animate()
-
-}
+setInterval(createFlower,300);
 
 </script>
 
