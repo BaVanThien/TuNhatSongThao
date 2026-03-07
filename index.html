@@ -11,39 +11,34 @@
 
 body{
 margin:0;
-background:black;
 overflow:hidden;
-font-family:cursive;
+font-family:'Segoe UI', cursive;
 color:white;
 text-align:center;
-}
 
-/* tiêu đề */
+/* GALAXY BACKGROUND */
+
+background:
+radial-gradient(circle at 20% 30%, rgba(120,0,255,0.4), transparent 40%),
+radial-gradient(circle at 80% 70%, rgba(0,150,255,0.3), transparent 40%),
+radial-gradient(circle at 50% 50%, rgba(255,0,150,0.2), transparent 50%),
+black;
+}
 
 #title{
 position:absolute;
-top:20px;
+top:30px;
 width:100%;
-font-size:40px;
-color:#ff69b4;
+font-size:42px;
+color:#ff77cc;
 }
-
-/* chữ viết tay */
 
 #message{
 position:absolute;
-top:100px;
+top:110px;
 width:100%;
-font-size:28px;
+font-size:26px;
 color:#ff99cc;
-}
-
-/* canvas */
-
-#scene{
-position:absolute;
-top:0;
-left:0;
 }
 
 /* sao */
@@ -53,7 +48,8 @@ position:absolute;
 width:2px;
 height:2px;
 background:white;
-animation:twinkle 2s infinite alternate;
+border-radius:50%;
+animation:twinkle 3s infinite alternate;
 }
 
 @keyframes twinkle{
@@ -61,12 +57,37 @@ from{opacity:0.3}
 to{opacity:1}
 }
 
-/* trái tim bay */
+/* sao băng */
+
+.shooting{
+position:absolute;
+width:3px;
+height:3px;
+background:white;
+box-shadow:0 0 6px white;
+animation:shoot 2s linear;
+}
+
+@keyframes shoot{
+
+0%{
+transform:translate(0,0);
+opacity:1;
+}
+
+100%{
+transform:translate(400px,200px);
+opacity:0;
+}
+
+}
+
+/* trái tim */
 
 .heart{
 position:absolute;
 color:red;
-font-size:18px;
+font-size:20px;
 animation:fly 6s linear infinite;
 }
 
@@ -84,12 +105,10 @@ opacity:0;
 
 }
 
-/* chữ ghép bằng tim */
-
-.nameHeart{
+canvas{
 position:absolute;
-color:red;
-font-size:14px;
+top:0;
+left:0;
 }
 
 </style>
@@ -106,7 +125,7 @@ font-size:14px;
 
 <script>
 
-/* chữ viết tay */
+/* TYPEWRITER MESSAGE */
 
 let text="Chúc bạn một ngày 8-3 thật hạnh phúc, luôn xinh đẹp và rạng rỡ 🌹";
 
@@ -128,25 +147,46 @@ setTimeout(typing,60);
 
 typing();
 
+/* STARS */
 
-/* bầu trời sao */
-
-for(let i=0;i<200;i++){
+for(let i=0;i<350;i++){
 
 let s=document.createElement("div");
 
 s.className="star";
 
 s.style.left=Math.random()*100+"vw";
-
 s.style.top=Math.random()*100+"vh";
+
+let size=Math.random()*3;
+
+s.style.width=size+"px";
+s.style.height=size+"px";
 
 document.body.appendChild(s);
 
 }
 
+/* SHOOTING STARS */
 
-/* trái tim bay */
+function shooting(){
+
+let s=document.createElement("div");
+
+s.className="shooting";
+
+s.style.left=Math.random()*window.innerWidth+"px";
+s.style.top=Math.random()*200+"px";
+
+document.body.appendChild(s);
+
+setTimeout(()=>s.remove(),2000);
+
+}
+
+setInterval(shooting,4000);
+
+/* HEART FLOAT */
 
 function heart(){
 
@@ -166,85 +206,53 @@ setTimeout(()=>h.remove(),6000);
 
 setInterval(heart,300);
 
+/* THREE JS ROSE */
 
-/* trái tim ghép tên */
+const scene=new THREE.Scene();
 
-let name="LAN";
-
-let startX=window.innerWidth/2-100;
-let startY=200;
-
-for(let y=0;y<name.length;y++){
-
-for(let x=0;x<10;x++){
-
-let h=document.createElement("div");
-
-h.innerHTML="❤";
-
-h.className="nameHeart";
-
-h.style.left=startX+x*20+"px";
-h.style.top=startY+y*40+"px";
-
-document.body.appendChild(h);
-
-}
-
-}
-
-
-/* THREE JS hoa hồng 3D */
-
-const scene = new THREE.Scene();
-
-const camera = new THREE.PerspectiveCamera(
+const camera=new THREE.PerspectiveCamera(
 75,
 window.innerWidth/window.innerHeight,
 0.1,
 1000
 );
 
-const renderer = new THREE.WebGLRenderer({alpha:true});
+const renderer=new THREE.WebGLRenderer({alpha:true});
 
 renderer.setSize(window.innerWidth,window.innerHeight);
 
 document.body.appendChild(renderer.domElement);
 
-const loader = new THREE.GLTFLoader();
+camera.position.z=6;
+
+/* LIGHT */
+
+const light=new THREE.PointLight(0xffffff,1);
+
+light.position.set(10,10,10);
+
+scene.add(light);
+
+/* LOAD ROSE MODEL */
+
+const loader=new THREE.GLTFLoader();
 
 loader.load(
+
 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Rose/glTF/Rose.gltf',
 
-function (gltf) {
+function(gltf){
 
-const rose = gltf.scene;
+const rose=gltf.scene;
 
 rose.scale.set(2,2,2);
-rose.position.y=-1;
 
 scene.add(rose);
 
 function animate(){
-requestAnimationFrame(animate);
-
-rose.rotation.y += 0.01;
-
-renderer.render(scene,camera);
-}
-
-animate();
-
-}
-
-);
-camera.position.z=6;
-
-function animate(){
 
 requestAnimationFrame(animate);
 
-rose.rotation.x+=0.01;
 rose.rotation.y+=0.01;
 
 renderer.render(scene,camera);
@@ -253,8 +261,11 @@ renderer.render(scene,camera);
 
 animate();
 
+}
+
+);
+
 </script>
 
 </body>
 </html>
-
