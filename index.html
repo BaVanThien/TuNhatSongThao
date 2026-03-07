@@ -2,27 +2,50 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Happy Women's Day 8-3</title>
+<title>Happy Women's Day</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <style>
 
 body{
 margin:0;
 background:black;
-color:white;
 overflow:hidden;
-font-family:monospace;
+font-family:cursive;
+color:white;
 text-align:center;
 }
 
 /* tiêu đề */
 
-h1{
-color:#00ff88;
-margin-top:30px;
+#title{
+position:absolute;
+top:20px;
+width:100%;
+font-size:40px;
+color:#ff69b4;
 }
 
-/* bầu trời sao */
+/* chữ viết tay */
+
+#message{
+position:absolute;
+top:100px;
+width:100%;
+font-size:28px;
+color:#ff99cc;
+}
+
+/* canvas */
+
+#scene{
+position:absolute;
+top:0;
+left:0;
+}
+
+/* sao */
 
 .star{
 position:absolute;
@@ -33,89 +56,39 @@ animation:twinkle 2s infinite alternate;
 }
 
 @keyframes twinkle{
-from{opacity:0.2}
+from{opacity:0.3}
 to{opacity:1}
 }
 
-/* hoa rơi */
-
-.flower{
-position:absolute;
-top:-50px;
-font-size:24px;
-animation:fall linear infinite;
-}
-
-@keyframes fall{
-0%{transform:translateY(-50px)}
-100%{transform:translateY(100vh)}
-}
-
-/* trái tim */
+/* trái tim bay */
 
 .heart{
 position:absolute;
 color:red;
-font-size:14px;
+font-size:18px;
+animation:fly 6s linear infinite;
 }
 
-/* pháo hoa */
+@keyframes fly{
 
-.firework{
-position:absolute;
-width:4px;
-height:4px;
-background:red;
-border-radius:50%;
-animation:explode 1s ease-out forwards;
+0%{
+transform:translateY(0);
+opacity:1;
 }
 
-@keyframes explode{
-0%{transform:scale(1)}
-100%{transform:translate(var(--x),var(--y));opacity:0}
-}
-
-/* hoa hồng */
-
-.rose{
-position:absolute;
-top:55%;
-left:50%;
-transform:translate(-50%,-50%);
-width:120px;
-height:120px;
-}
-
-.petal{
-position:absolute;
-width:80px;
-height:80px;
-background:red;
-border-radius:50%;
-transform-origin:center bottom;
+100%{
+transform:translateY(-100vh);
 opacity:0;
-animation:bloom 2s forwards;
 }
 
-@keyframes bloom{
-0%{transform:scale(0)}
-100%{transform:scale(1)}
 }
 
-.p1{transform:rotate(0deg)}
-.p2{transform:rotate(60deg)}
-.p3{transform:rotate(120deg)}
-.p4{transform:rotate(180deg)}
-.p5{transform:rotate(240deg)}
-.p6{transform:rotate(300deg)}
+/* chữ ghép bằng tim */
 
-.stem{
+.nameHeart{
 position:absolute;
-width:6px;
-height:200px;
-background:green;
-top:80px;
-left:57px;
+color:red;
+font-size:14px;
 }
 
 </style>
@@ -123,117 +96,145 @@ left:57px;
 
 <body>
 
-<h1>🌸 Happy Women's Day 8-3 🌸</h1>
+<div id="title">🌸 Happy Women's Day 8-3 🌸</div>
+<div id="message"></div>
 
-<h2>Chúc bạn luôn xinh đẹp và hạnh phúc 🌹</h2>
-
-<div class="rose">
-
-<div class="petal p1"></div>
-<div class="petal p2"></div>
-<div class="petal p3"></div>
-<div class="petal p4"></div>
-<div class="petal p5"></div>
-<div class="petal p6"></div>
-
-<div class="stem"></div>
-
-</div>
+<audio autoplay loop>
+<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">
+</audio>
 
 <script>
 
+/* chữ viết tay */
+
+let text="Chúc bạn một ngày 8-3 thật hạnh phúc, luôn xinh đẹp và rạng rỡ 🌹";
+
+let i=0;
+
+function typing(){
+
+if(i<text.length){
+
+document.getElementById("message").innerHTML+=text.charAt(i);
+
+i++;
+
+setTimeout(typing,60);
+
+}
+
+}
+
+typing();
+
+
 /* bầu trời sao */
 
-for(let i=0;i<150;i++){
+for(let i=0;i<200;i++){
 
-let star=document.createElement("div")
+let s=document.createElement("div");
 
-star.className="star"
+s.className="star";
 
-star.style.left=Math.random()*100+"vw"
-star.style.top=Math.random()*100+"vh"
+s.style.left=Math.random()*100+"vw";
 
-document.body.appendChild(star)
+s.style.top=Math.random()*100+"vh";
 
-}
-
-/* hoa rơi */
-
-function flower(){
-
-let f=document.createElement("div")
-
-f.innerHTML="🌸"
-f.className="flower"
-
-f.style.left=Math.random()*100+"vw"
-f.style.animationDuration=3+Math.random()*5+"s"
-
-document.body.appendChild(f)
-
-setTimeout(()=>f.remove(),8000)
+document.body.appendChild(s);
 
 }
 
-setInterval(flower,300)
+
+/* trái tim bay */
+
+function heart(){
+
+let h=document.createElement("div");
+
+h.innerHTML="❤";
+
+h.className="heart";
+
+h.style.left=Math.random()*100+"vw";
+
+document.body.appendChild(h);
+
+setTimeout(()=>h.remove(),6000);
+
+}
+
+setInterval(heart,300);
+
 
 /* trái tim ghép tên */
 
-let name="YOU"
+let name="LAN";
 
-let startX=window.innerWidth/2-100
-let startY=200
+let startX=window.innerWidth/2-100;
+let startY=200;
 
 for(let y=0;y<name.length;y++){
 
 for(let x=0;x<10;x++){
 
-let h=document.createElement("div")
+let h=document.createElement("div");
 
-h.innerHTML="❤"
+h.innerHTML="❤";
 
-h.className="heart"
+h.className="nameHeart";
 
-h.style.left=startX+x*20+"px"
-h.style.top=startY+y*40+"px"
+h.style.left=startX+x*20+"px";
+h.style.top=startY+y*40+"px";
 
-document.body.appendChild(h)
-
-}
-
-}
-
-/* pháo hoa */
-
-function firework(){
-
-let x=Math.random()*window.innerWidth
-let y=Math.random()*window.innerHeight/2
-
-for(let i=0;i<30;i++){
-
-let f=document.createElement("div")
-
-f.className="firework"
-
-f.style.left=x+"px"
-f.style.top=y+"px"
-
-let angle=Math.random()*2*Math.PI
-let dist=80
-
-f.style.setProperty('--x',Math.cos(angle)*dist+"px")
-f.style.setProperty('--y',Math.sin(angle)*dist+"px")
-
-document.body.appendChild(f)
-
-setTimeout(()=>f.remove(),1000)
+document.body.appendChild(h);
 
 }
 
 }
 
-setInterval(firework,2000)
+
+/* THREE JS hoa hồng 3D */
+
+const scene = new THREE.Scene();
+
+const camera = new THREE.PerspectiveCamera(
+75,
+window.innerWidth/window.innerHeight,
+0.1,
+1000
+);
+
+const renderer = new THREE.WebGLRenderer({alpha:true});
+
+renderer.setSize(window.innerWidth,window.innerHeight);
+
+document.body.appendChild(renderer.domElement);
+
+const geometry = new THREE.SphereGeometry(2,32,32);
+
+const material = new THREE.MeshBasicMaterial({
+color:0xff0033,
+wireframe:true
+});
+
+const rose = new THREE.Mesh(geometry,material);
+
+scene.add(rose);
+
+camera.position.z=6;
+
+function animate(){
+
+requestAnimationFrame(animate);
+
+rose.rotation.x+=0.01;
+rose.rotation.y+=0.01;
+
+renderer.render(scene,camera);
+
+}
+
+animate();
 
 </script>
 
