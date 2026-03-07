@@ -2,99 +2,39 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Happy Women's Day</title>
+<title>Happy Women's Day 8-3</title>
 
 <style>
 
 body{
+margin:0;
 background:black;
 color:white;
-text-align:center;
 overflow:hidden;
 font-family:monospace;
+text-align:center;
 }
+
+/* tiêu đề */
 
 h1{
 color:#00ff88;
-margin-top:40px;
+margin-top:30px;
 }
 
-/* container */
+/* bầu trời sao */
 
-.rose-container{
+.star{
 position:absolute;
-left:50%;
-top:60%;
-transform:translate(-50%,-50%);
+width:2px;
+height:2px;
+background:white;
+animation:twinkle 2s infinite alternate;
 }
 
-/* cánh hoa */
-
-.petal{
-position:absolute;
-width:80px;
-height:80px;
-background:red;
-border-radius:50%;
-transform-origin:bottom center;
-opacity:0;
-animation:bloom 3s forwards;
-}
-
-/* vị trí từng cánh */
-
-.p1{ transform:rotate(0deg) translateY(-20px);}
-.p2{ transform:rotate(60deg) translateY(-20px);}
-.p3{ transform:rotate(120deg) translateY(-20px);}
-.p4{ transform:rotate(180deg) translateY(-20px);}
-.p5{ transform:rotate(240deg) translateY(-20px);}
-.p6{ transform:rotate(300deg) translateY(-20px);}
-
-@keyframes bloom{
-
-0%{
-opacity:0;
-transform:scale(0);
-}
-
-100%{
-opacity:1;
-transform:scale(1);
-}
-
-}
-
-/* thân hoa */
-
-.stem{
-position:absolute;
-width:6px;
-height:200px;
-background:green;
-left:37px;
-top:60px;
-}
-
-/* lá */
-
-.leaf{
-position:absolute;
-width:60px;
-height:30px;
-background:green;
-border-radius:50%;
-}
-
-.l1{
-left:-50px;
-top:120px;
-transform:rotate(-30deg);
-}
-
-.l2{
-left:40px;
-top:150px;
-transform:rotate(30deg);
+@keyframes twinkle{
+from{opacity:0.2}
+to{opacity:1}
 }
 
 /* hoa rơi */
@@ -111,6 +51,73 @@ animation:fall linear infinite;
 100%{transform:translateY(100vh)}
 }
 
+/* trái tim */
+
+.heart{
+position:absolute;
+color:red;
+font-size:14px;
+}
+
+/* pháo hoa */
+
+.firework{
+position:absolute;
+width:4px;
+height:4px;
+background:red;
+border-radius:50%;
+animation:explode 1s ease-out forwards;
+}
+
+@keyframes explode{
+0%{transform:scale(1)}
+100%{transform:translate(var(--x),var(--y));opacity:0}
+}
+
+/* hoa hồng */
+
+.rose{
+position:absolute;
+top:55%;
+left:50%;
+transform:translate(-50%,-50%);
+width:120px;
+height:120px;
+}
+
+.petal{
+position:absolute;
+width:80px;
+height:80px;
+background:red;
+border-radius:50%;
+transform-origin:center bottom;
+opacity:0;
+animation:bloom 2s forwards;
+}
+
+@keyframes bloom{
+0%{transform:scale(0)}
+100%{transform:scale(1)}
+}
+
+.p1{transform:rotate(0deg)}
+.p2{transform:rotate(60deg)}
+.p3{transform:rotate(120deg)}
+.p4{transform:rotate(180deg)}
+.p5{transform:rotate(240deg)}
+.p6{transform:rotate(300deg)}
+
+.stem{
+position:absolute;
+width:6px;
+height:200px;
+background:green;
+top:80px;
+left:57px;
+}
+
 </style>
 </head>
 
@@ -120,7 +127,7 @@ animation:fall linear infinite;
 
 <h2>Chúc bạn luôn xinh đẹp và hạnh phúc 🌹</h2>
 
-<div class="rose-container">
+<div class="rose">
 
 <div class="petal p1"></div>
 <div class="petal p2"></div>
@@ -131,34 +138,102 @@ animation:fall linear infinite;
 
 <div class="stem"></div>
 
-<div class="leaf l1"></div>
-<div class="leaf l2"></div>
-
 </div>
 
 <script>
+
+/* bầu trời sao */
+
+for(let i=0;i<150;i++){
+
+let star=document.createElement("div")
+
+star.className="star"
+
+star.style.left=Math.random()*100+"vw"
+star.style.top=Math.random()*100+"vh"
+
+document.body.appendChild(star)
+
+}
 
 /* hoa rơi */
 
 function flower(){
 
-let f=document.createElement("div");
+let f=document.createElement("div")
 
-f.innerHTML="🌸";
+f.innerHTML="🌸"
+f.className="flower"
 
-f.className="flower";
+f.style.left=Math.random()*100+"vw"
+f.style.animationDuration=3+Math.random()*5+"s"
 
-f.style.left=Math.random()*100+"vw";
+document.body.appendChild(f)
 
-f.style.animationDuration=3+Math.random()*5+"s";
-
-document.body.appendChild(f);
-
-setTimeout(()=>{f.remove()},8000);
+setTimeout(()=>f.remove(),8000)
 
 }
 
-setInterval(flower,300);
+setInterval(flower,300)
+
+/* trái tim ghép tên */
+
+let name="YOU"
+
+let startX=window.innerWidth/2-100
+let startY=200
+
+for(let y=0;y<name.length;y++){
+
+for(let x=0;x<10;x++){
+
+let h=document.createElement("div")
+
+h.innerHTML="❤"
+
+h.className="heart"
+
+h.style.left=startX+x*20+"px"
+h.style.top=startY+y*40+"px"
+
+document.body.appendChild(h)
+
+}
+
+}
+
+/* pháo hoa */
+
+function firework(){
+
+let x=Math.random()*window.innerWidth
+let y=Math.random()*window.innerHeight/2
+
+for(let i=0;i<30;i++){
+
+let f=document.createElement("div")
+
+f.className="firework"
+
+f.style.left=x+"px"
+f.style.top=y+"px"
+
+let angle=Math.random()*2*Math.PI
+let dist=80
+
+f.style.setProperty('--x',Math.cos(angle)*dist+"px")
+f.style.setProperty('--y',Math.sin(angle)*dist+"px")
+
+document.body.appendChild(f)
+
+setTimeout(()=>f.remove(),1000)
+
+}
+
+}
+
+setInterval(firework,2000)
 
 </script>
 
