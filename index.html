@@ -5,6 +5,7 @@
 <title>Happy Women's Day</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128/examples/js/loaders/GLTFLoader.js"></script>
 
 <style>
 
@@ -210,17 +211,33 @@ renderer.setSize(window.innerWidth,window.innerHeight);
 
 document.body.appendChild(renderer.domElement);
 
-const geometry = new THREE.SphereGeometry(2,32,32);
+const loader = new THREE.GLTFLoader();
 
-const material = new THREE.MeshBasicMaterial({
-color:0xff0033,
-wireframe:true
-});
+loader.load(
+'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Rose/glTF/Rose.gltf',
 
-const rose = new THREE.Mesh(geometry,material);
+function (gltf) {
+
+const rose = gltf.scene;
+
+rose.scale.set(2,2,2);
+rose.position.y=-1;
 
 scene.add(rose);
 
+function animate(){
+requestAnimationFrame(animate);
+
+rose.rotation.y += 0.01;
+
+renderer.render(scene,camera);
+}
+
+animate();
+
+}
+
+);
 camera.position.z=6;
 
 function animate(){
@@ -240,3 +257,4 @@ animate();
 
 </body>
 </html>
+
