@@ -2,24 +2,99 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Chúc Mừng 8-3</title>
+<title>Happy Women's Day</title>
 
 <style>
 
 body{
 background:black;
-color:#0f0;
-font-family:monospace;
+color:white;
 text-align:center;
 overflow:hidden;
+font-family:monospace;
 }
 
-/* chữ hacker */
+h1{
+color:#00ff88;
+margin-top:40px;
+}
 
-#text{
-margin-top:120px;
-font-size:28px;
-color:#ff69b4;
+/* container */
+
+.rose-container{
+position:absolute;
+left:50%;
+top:60%;
+transform:translate(-50%,-50%);
+}
+
+/* cánh hoa */
+
+.petal{
+position:absolute;
+width:80px;
+height:80px;
+background:red;
+border-radius:50%;
+transform-origin:bottom center;
+opacity:0;
+animation:bloom 3s forwards;
+}
+
+/* vị trí từng cánh */
+
+.p1{ transform:rotate(0deg) translateY(-20px);}
+.p2{ transform:rotate(60deg) translateY(-20px);}
+.p3{ transform:rotate(120deg) translateY(-20px);}
+.p4{ transform:rotate(180deg) translateY(-20px);}
+.p5{ transform:rotate(240deg) translateY(-20px);}
+.p6{ transform:rotate(300deg) translateY(-20px);}
+
+@keyframes bloom{
+
+0%{
+opacity:0;
+transform:scale(0);
+}
+
+100%{
+opacity:1;
+transform:scale(1);
+}
+
+}
+
+/* thân hoa */
+
+.stem{
+position:absolute;
+width:6px;
+height:200px;
+background:green;
+left:37px;
+top:60px;
+}
+
+/* lá */
+
+.leaf{
+position:absolute;
+width:60px;
+height:30px;
+background:green;
+border-radius:50%;
+}
+
+.l1{
+left:-50px;
+top:120px;
+transform:rotate(-30deg);
+}
+
+.l2{
+left:40px;
+top:150px;
+transform:rotate(30deg);
 }
 
 /* hoa rơi */
@@ -36,36 +111,6 @@ animation:fall linear infinite;
 100%{transform:translateY(100vh)}
 }
 
-/* trái tim bay */
-
-.heart{
-position:absolute;
-bottom:-20px;
-font-size:20px;
-color:red;
-animation:fly 5s linear infinite;
-}
-
-@keyframes fly{
-0%{transform:translateY(0)}
-100%{transform:translateY(-100vh)}
-}
-
-/* hoa hồng */
-
-.rose{
-margin-top:40px;
-color:red;
-font-size:18px;
-white-space:pre;
-animation:bloom 4s forwards;
-}
-
-@keyframes bloom{
-0%{transform:scale(0.2);opacity:0}
-100%{transform:scale(1);opacity:1}
-}
-
 </style>
 </head>
 
@@ -73,54 +118,25 @@ animation:bloom 4s forwards;
 
 <h1>🌸 Happy Women's Day 8-3 🌸</h1>
 
-<div id="text"></div>
+<h2>Chúc bạn luôn xinh đẹp và hạnh phúc 🌹</h2>
 
-<div class="rose">
+<div class="rose-container">
 
-        _ _
-     {` ` `}\
-    {  `   ` }
-   { `  ` `  }
-    {  `   ` }
-     {` ` `}/
-       \|/
-        |
-       \|/
-        |
-       \|/
-        |
-       / \
+<div class="petal p1"></div>
+<div class="petal p2"></div>
+<div class="petal p3"></div>
+<div class="petal p4"></div>
+<div class="petal p5"></div>
+<div class="petal p6"></div>
+
+<div class="stem"></div>
+
+<div class="leaf l1"></div>
+<div class="leaf l2"></div>
 
 </div>
 
-<audio autoplay loop>
-<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">
-</audio>
-
 <script>
-
-/* chữ gõ từng ký tự */
-
-let message="Chúc bạn một ngày 8-3 thật hạnh phúc, luôn xinh đẹp và rạng rỡ 🌹";
-
-let i=0;
-
-function typing(){
-
-if(i<message.length){
-
-document.getElementById("text").innerHTML+=message.charAt(i);
-
-i++;
-
-setTimeout(typing,70);
-
-}
-
-}
-
-typing();
-
 
 /* hoa rơi */
 
@@ -143,27 +159,6 @@ setTimeout(()=>{f.remove()},8000);
 }
 
 setInterval(flower,300);
-
-
-/* trái tim bay */
-
-function heart(){
-
-let h=document.createElement("div");
-
-h.innerHTML="❤";
-
-h.className="heart";
-
-h.style.left=Math.random()*100+"vw";
-
-document.body.appendChild(h);
-
-setTimeout(()=>{h.remove()},5000);
-
-}
-
-setInterval(heart,500);
 
 </script>
 
