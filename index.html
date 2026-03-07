@@ -3,34 +3,100 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chúc mừng 8-3</title>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<title>Gửi Thảo 💖</title>
 
 <style>
 
 body{
 margin:0;
 overflow:hidden;
-background:black;
-font-family:sans-serif;
+font-family:Arial;
+background:radial-gradient(circle,#1a001f,#000);
+color:white;
+text-align:center;
+}
+
+/* galaxy background */
+
+.stars{
+position:fixed;
+width:100%;
+height:100%;
+background:url("https://i.imgur.com/YKY28eT.png");
+animation:moveStars 120s linear infinite;
+opacity:0.4;
+}
+
+@keyframes moveStars{
+from{background-position:0 0;}
+to{background-position:10000px 5000px;}
 }
 
 /* text */
-#text{
+
+#message{
 position:absolute;
-top:20%;
+top:25%;
 width:100%;
-text-align:center;
-color:#ff99cc;
 font-size:32px;
+color:#ffb6d9;
+text-shadow:0 0 15px pink;
 font-weight:bold;
-text-shadow:0 0 20px pink;
 }
 
-/* heart canvas */
-#heart{
+/* rose */
+
+.rose{
 position:absolute;
+top:55%;
+left:50%;
+transform:translate(-50%,-50%);
+}
+
+.petal{
+width:60px;
+height:90px;
+background:#ff2a6d;
+border-radius:50%;
+position:absolute;
+opacity:0;
+animation:bloom 4s forwards;
+}
+
+.petal:nth-child(1){transform:rotate(0deg) translateY(-40px);animation-delay:0s;}
+.petal:nth-child(2){transform:rotate(45deg) translateY(-40px);animation-delay:0.4s;}
+.petal:nth-child(3){transform:rotate(90deg) translateY(-40px);animation-delay:0.8s;}
+.petal:nth-child(4){transform:rotate(135deg) translateY(-40px);animation-delay:1.2s;}
+.petal:nth-child(5){transform:rotate(180deg) translateY(-40px);animation-delay:1.6s;}
+.petal:nth-child(6){transform:rotate(225deg) translateY(-40px);animation-delay:2s;}
+.petal:nth-child(7){transform:rotate(270deg) translateY(-40px);animation-delay:2.4s;}
+.petal:nth-child(8){transform:rotate(315deg) translateY(-40px);animation-delay:2.8s;}
+
+@keyframes bloom{
+to{
+opacity:1;
+transform:scale(1.2);
+}
+}
+
+/* hearts */
+
+.heart{
+position:absolute;
+color:pink;
+font-size:20px;
+animation:float 6s linear infinite;
+}
+
+@keyframes float{
+0%{transform:translateY(0);opacity:1;}
+100%{transform:translateY(-800px);opacity:0;}
+}
+
+/* fireworks canvas */
+
+canvas{
+position:fixed;
 top:0;
 left:0;
 }
@@ -40,112 +106,79 @@ left:0;
 
 <body>
 
-<div id="text"></div>
+<div class="stars"></div>
 
-<canvas id="heart"></canvas>
+<div id="message"></div>
+
+<div class="rose">
+<div class="petal"></div>
+<div class="petal"></div>
+<div class="petal"></div>
+<div class="petal"></div>
+<div class="petal"></div>
+<div class="petal"></div>
+<div class="petal"></div>
+<div class="petal"></div>
+</div>
+
+<canvas id="fireworks"></canvas>
 
 <script>
 
-/* typing text */
+/* typing message */
 
-let name="Người Phụ Nữ Tuyệt Vời 💖"
-let msg="Chúc Mừng 8-3 "
+let text="Chúc mừng 8-3 Thảo 💖 Em là điều tuyệt vời nhất trong cuộc đời anh."
 let i=0
 
-function type(){
-if(i < msg.length){
-document.getElementById("text").innerHTML += msg.charAt(i)
+function typing(){
+if(i < text.length){
+document.getElementById("message").innerHTML += text.charAt(i)
 i++
-setTimeout(type,120)
-}else{
-document.getElementById("text").innerHTML += name
+setTimeout(typing,80)
 }
 }
-type()
 
-/* THREE JS ROSE */
+typing()
 
-let scene=new THREE.Scene()
-let camera=new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000)
+/* hearts */
 
-let renderer=new THREE.WebGLRenderer({alpha:true})
-renderer.setSize(window.innerWidth,window.innerHeight)
-document.body.appendChild(renderer.domElement)
+function createHeart(){
 
-camera.position.z=5
+let heart=document.createElement("div")
+heart.className="heart"
+heart.innerHTML="💖"
 
-let petals=[]
+heart.style.left=Math.random()*100+"%"
+heart.style.top="100%"
 
-for(let i=0;i<20;i++){
+heart.style.fontSize=Math.random()*25+15+"px"
 
-let geo=new THREE.SphereGeometry(0.3,32,32)
-let mat=new THREE.MeshBasicMaterial({color:0xff0040})
+document.body.appendChild(heart)
 
-let petal=new THREE.Mesh(geo,mat)
-
-petal.position.x=Math.sin(i)*1.2
-petal.position.y=Math.cos(i)*1.2
-
-scene.add(petal)
-
-petals.push(petal)
+setTimeout(()=>{heart.remove()},6000)
 
 }
 
-/* HEART PARTICLES */
+setInterval(createHeart,300)
 
-let canvas=document.getElementById("heart")
-let ctx=canvas.getContext("2d")
+/* fireworks */
+
+const canvas=document.getElementById("fireworks")
+const ctx=canvas.getContext("2d")
 
 canvas.width=window.innerWidth
 canvas.height=window.innerHeight
 
 let particles=[]
 
-for(let i=0;i<1000;i++){
+function firework(){
 
-particles.push({
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-size:Math.random()*2
-})
-
-}
-
-function drawHeart(){
-
-ctx.clearRect(0,0,canvas.width,canvas.height)
-
-particles.forEach(p=>{
-
-let t=Date.now()/1000
-
-p.x += Math.sin(t+p.y)*0.3
-p.y += Math.cos(t+p.x)*0.3
-
-ctx.fillStyle="rgba(255,100,150,0.8)"
-ctx.fillRect(p.x,p.y,p.size,p.size)
-
-})
-
-requestAnimationFrame(drawHeart)
-
-}
-
-drawHeart()
-
-/* FIREWORKS */
-
-let fireworks=[]
-
-function createFirework(){
-
-let x=Math.random()*window.innerWidth
-let y=Math.random()*window.innerHeight/2
+let x=Math.random()*canvas.width
+let y=Math.random()*canvas.height/2
 
 for(let i=0;i<80;i++){
 
-fireworks.push({
+particles.push({
 x:x,
 y:y,
 vx:(Math.random()-0.5)*6,
@@ -157,45 +190,29 @@ life:100
 
 }
 
-setInterval(createFirework,1200)
-
-function drawFireworks(){
-
-ctx.fillStyle="rgba(0,0,0,0.1)"
-ctx.fillRect(0,0,canvas.width,canvas.height)
-
-fireworks.forEach((f,i)=>{
-
-f.x+=f.vx
-f.y+=f.vy
-f.life--
-
-ctx.fillStyle=`hsl(${Math.random()*360},100%,60%)`
-ctx.fillRect(f.x,f.y,3,3)
-
-if(f.life<=0)fireworks.splice(i,1)
-
-})
-
-requestAnimationFrame(drawFireworks)
-
-}
-
-drawFireworks()
-
-/* ANIMATE 3D */
+setInterval(firework,1500)
 
 function animate(){
 
-requestAnimationFrame(animate)
+ctx.fillStyle="rgba(0,0,0,0.15)"
+ctx.fillRect(0,0,canvas.width,canvas.height)
 
-petals.forEach((p,i)=>{
-p.rotation.z +=0.01
-p.scale.x = 1 + Math.sin(Date.now()*0.002+i)*0.2
-p.scale.y = p.scale.x
+particles.forEach((p,i)=>{
+
+p.x+=p.vx
+p.y+=p.vy
+p.life--
+
+ctx.fillStyle=`hsl(${Math.random()*360},100%,60%)`
+ctx.fillRect(p.x,p.y,3,3)
+
+if(p.life<=0){
+particles.splice(i,1)
+}
+
 })
 
-renderer.render(scene,camera)
+requestAnimationFrame(animate)
 
 }
 
